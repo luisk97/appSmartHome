@@ -1,10 +1,14 @@
 import { StyleSheet, Text, View , Image, TouchableOpacity } from 'react-native';
 import React, {Component} from 'react';
+/* window.navigator.userAgent ='react-native';
+import io from 'socket.io-client'; */
 import camara from '../assets/camara.png';
 import bombilloOn from '../assets/bombilloOn.png';
 import bombilloOff from '../assets/bombilloOff.png';
 import interrogacion from '../assets/pregunta.png';
+import puerta from '../assets/puerta.png'
 import * as glob from './global/global';
+
 
 export default class Casa extends Component{
 
@@ -23,7 +27,18 @@ export default class Casa extends Component{
             puertaBanio: 0,
             puertaFrente: 0
         }
+
+        /* this.setPuertas = this.setPuertas.bind(this);
+
+        this.socket = io("http://192.168.1.4:7000/", {jsonp: false});
+
+        this.socket.on('update', () => this.setState({puertaFrente: 1}));
+
+        this.socket.on('update2', () => this.setState({puertaFrente: 0})); */
+
+        
     }
+    
 
     componentDidMount() {
         fetch(glob.Url+'luces', {
@@ -55,7 +70,6 @@ export default class Casa extends Component{
         .catch((error) => {
           console.error(error);
         })
-        .then(this.props.navigation.navigate('SmartHome',{luces: this.state.data1, puertas: this.state.data2}));
     }
 
     onPressCuarto(num){
@@ -141,6 +155,25 @@ export default class Casa extends Component{
         }) 
         .then(response => {    console.log(response.status);     return response.json();  })  
         .then(data => console.log(data));
+    }
+
+    onPressPuertas(){
+        fetch(glob.Url+'puertas', {
+            method: 'GET'
+        })
+        .then(res => res.json())
+        .then(res => {
+        this.setState({
+            puertaPatio: res[0].state || ["hola1"],
+            puertaCuarto1: res[1].state || ["hola1"],
+            puertaCuarto2: res[2].state || ["hola1"],
+            puertaBanio: res[3].state || ["hola1"],
+            puertaFrente: res[4].state || ["hola1"]
+        });
+        })
+        .catch((error) => {
+        console.error(error);
+        })
     }
 
     onPressCasaOn(){
@@ -319,6 +352,14 @@ export default class Casa extends Component{
                         />
                     </TouchableOpacity>
                     <TouchableOpacity
+                        onPress={() => this.onPressPuertas()}
+                    >
+                        <Image
+                            source={puerta}
+                            style={styles.image}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity
                         onPress={() => this.onPressHelp()}
                     >
                         <Image
@@ -398,8 +439,8 @@ const styles = StyleSheet.create({
     image: {
         height: 40, 
         width: 40, 
-        borderRadius: 20,
-        marginLeft: 20,
+        borderRadius: 13,
+        marginLeft: 13,
         marginRight: 20
     }
   });

@@ -42,7 +42,7 @@ import * as glob from './componentes/global/global';
   // loadInfo = () 
 
   _onPressButton() {
-    fetch(glob.Url+'luces', {
+    /* fetch(glob.Url+'luces', {
       method: 'GET'
     })
     .then(res => res.json())
@@ -62,13 +62,12 @@ import * as glob from './componentes/global/global';
     })
     .catch((error) => {
       console.error(error);
-    })
-    .then(this.props.navigation.navigate('SmartHome'))
-    .then(this.setState({
+    }) */
+    this.props.navigation.navigate('SmartHome')
+    this.setState({
       password: "",
       usuario: ""
     })
-    );
   }
 
   render() {
