@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
         height: 40, 
         width: 40, 
         borderRadius: 13,
-        marginLeft: 13,
-        marginRight: 20
+        marginLeft: 15,
+        marginRight: 15
     }
   });
