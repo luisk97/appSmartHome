@@ -228,9 +228,15 @@ export default class Casa extends Component{
 
                     {/* Patio */}
                     <View style={styles.sectionh}>
-                        <View style={[styles.patio, styles.texto]}>
+                        {/* <View style={[styles.patio, styles.texto]}> */}
+                        <TouchableOpacity
+                            onPress={() => this.onPressPuertas()}
+                            style={[styles.patio, styles.texto]}
+                            activeOpacity={1}
+                        >
                             <Text>Patio</Text>
-                        </View>
+                        </TouchableOpacity>
+                        {/* </View> */}
                     </View>
 
                     {/* Pared 1 */}
@@ -308,7 +314,14 @@ export default class Casa extends Component{
 
                     {/* Cocina */}
                     <View style={styles.sectionh}>
-                        <View style={[styles.patio, styles.one]}></View>
+                        <View style={[styles.patio, styles.one]}>
+                            <TouchableOpacity
+                                onPress={() => this.onPressPuertas()}
+                                style={[styles.patio, styles.texto]}
+                                activeOpacity={1}
+                            >
+                            </TouchableOpacity>
+                        </View>
                         <View style={[styles.paredv]}>
                             <View style={[styles.rellenopared, styles.one]}></View>
                             <View style={[this.state.puertaFrente == 1 ? styles.puertabierta : styles.puertacerrada]}></View>
@@ -351,14 +364,14 @@ export default class Casa extends Component{
                             style={styles.image}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         onPress={() => this.onPressPuertas()}
                     >
                         <Image
                             source={puerta}
                             style={styles.image}
                         />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity
                         onPress={() => this.onPressHelp()}
                     >
@@ -440,7 +453,7 @@ const styles = StyleSheet.create({
         height: 40, 
         width: 40, 
         borderRadius: 13,
-        marginLeft: 15,
-        marginRight: 15
+        marginLeft: 20,
+        marginRight: 20
     }
   });
