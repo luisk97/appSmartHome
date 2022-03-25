@@ -10,7 +10,7 @@ import * as glob from './componentes/global/global';
 import icocasa from './assets/casaico.png';
 import md5 from 'md5';
 
- class HomeScreen extends Component {
+class HomeScreen extends Component {
 
   constructor(props){
     super(props);

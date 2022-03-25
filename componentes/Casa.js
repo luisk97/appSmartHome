@@ -6,7 +6,7 @@ import camara from '../assets/camara.png';
 import bombilloOn from '../assets/bombilloOn.png';
 import bombilloOff from '../assets/bombilloOff.png';
 import interrogacion from '../assets/pregunta.png';
-import puerta from '../assets/puerta.png'
+//import puerta from '../assets/puerta.png'
 import * as glob from './global/global';
 
 
@@ -16,10 +16,10 @@ export default class Casa extends Component{
         super(props);
 
         this.state = {
-            luzCuarto1: 0,
+            luzBanio: 0,
             luzCuarto2: 0,
             luzSala: 0,
-            luzBanio: 0,
+            luzCuarto1: 0,
             luzCocina: 0,
             puertaPatio: 0,
             puertaCuarto1: 0,
@@ -35,8 +35,6 @@ export default class Casa extends Component{
         this.socket.on('update', () => this.setState({puertaFrente: 1}));
 
         this.socket.on('update2', () => this.setState({puertaFrente: 0})); */
-
-        
     }
     
 
@@ -47,10 +45,10 @@ export default class Casa extends Component{
         .then(res => res.json())
         .then(res => {
           this.setState({
-            luzCuarto1: res[0].state || ["hola1"],
+            luzBanio: res[0].state || ["hola1"],
             luzCuarto2: res[1].state || ["hola1"],
             luzSala: res[2].state || ["hola1"],
-            luzBanio: res[3].state || ["hola1"],
+            luzCuarto1: res[3].state || ["hola1"],
             luzCocina: res[4].state || ["hola1"]
           });
         })
@@ -61,10 +59,10 @@ export default class Casa extends Component{
         .then(res => {
           this.setState({
             puertaPatio: res[0].state || ["hola1"],
-            puertaCuarto1: res[1].state || ["hola1"],
-            puertaCuarto2: res[2].state || ["hola1"],
-            puertaBanio: res[3].state || ["hola1"],
-            puertaFrente: res[4].state || ["hola1"]
+            puertaBanio: 0,
+            puertaCuarto2: res[1].state || ["hola1"],
+            puertaCuarto1: res[2].state || ["hola1"],
+            puertaFrente: res[3].state || ["hola1"]
           });
         })
         .catch((error) => {
@@ -74,14 +72,14 @@ export default class Casa extends Component{
 
     onPressCuarto(num){
         if (num === 1){
-            if(this.state.luzCuarto1 === 1){
+            if(this.state.luzBanio === 1){
                 this.setState({
-                    luzCuarto1: 0
+                    luzBanio: 0
                 })
                 this.fetchOff(1)
             }else{
                 this.setState({
-                    luzCuarto1: 1
+                    luzBanio: 1
                 })
                 this.fetchOn(1)
             }
@@ -110,14 +108,14 @@ export default class Casa extends Component{
                 this.fetchOn(3)
             }
         }else if(num === 4){
-            if(this.state.luzBanio === 1){
+            if(this.state.luzCuarto1 === 1){
                 this.setState({
-                    luzBanio: 0
+                    luzCuarto1: 0
                 })
                 this.fetchOff(4)
             } else {
                 this.setState({
-                    luzBanio: 1
+                    luzCuarto1: 1
                 })
                 this.fetchOn(4)
             }
@@ -165,10 +163,10 @@ export default class Casa extends Component{
         .then(res => {
         this.setState({
             puertaPatio: res[0].state || ["hola1"],
-            puertaCuarto1: res[1].state || ["hola1"],
-            puertaCuarto2: res[2].state || ["hola1"],
-            puertaBanio: res[3].state || ["hola1"],
-            puertaFrente: res[4].state || ["hola1"]
+            puertaBanio: 0,
+            puertaCuarto2: res[1].state || ["hola1"],
+            puertaCuarto1: res[2].state || ["hola1"],
+            puertaFrente: res[3].state || ["hola1"]
         });
         })
         .catch((error) => {
@@ -246,18 +244,18 @@ export default class Casa extends Component{
                         <View style={[styles.rellenopared, styles.two]}></View>
                     </View>
                     
-                    {/* Cuartos */}
+                    {/* Cuarto 2 y Baño */}
                     <View style={styles.sectionh}>
-                        <View style={[this.state.luzCuarto1 == 1 ? styles.sectionvon : styles.sectionvoff, styles.two, styles.texto]}>
+                        <View style={[this.state.luzBanio == 1 ? styles.sectionvon : styles.sectionvoff, styles.two, styles.texto]}>
                             <TouchableOpacity
                                 onPress={() => this.onPressCuarto(1)}
                             >
-                                <Text>Cuarto 1</Text>
+                                <Text>Baño</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={[styles.paredv]}>
                             <View style={[styles.rellenopared, styles.one]}></View>
-                            <View style={[this.state.puertaCuarto1 == 1 ? styles.puertabierta : styles.puertacerrada]}></View>
+                            <View style={[this.state.puertaBanio == 1 ? styles.puertabierta : styles.puertacerrada]}></View>
                             <View style={[styles.rellenopared, styles.one]}></View>
                         </View>
                         <View style={[styles.box]}></View>
@@ -282,7 +280,7 @@ export default class Casa extends Component{
                         <View style={[styles.rellenopared, styles.two]}></View>
                     </View>
 
-                    {/* Sala y baño */}
+                    {/* Sala y Cuarto 1 */}
                     <View style={styles.sectionh}>
                         <View style={[this.state.luzSala == 1 ? styles.sectionvon : styles.sectionvoff, styles.two, styles.texto]}>
                             <TouchableOpacity
@@ -293,14 +291,14 @@ export default class Casa extends Component{
                         </View>
                         <View style={[styles.paredv]}>
                             <View style={[styles.rellenopared, styles.one]}></View>
-                            <View style={[this.state.puertaBanio == 1 ? styles.puertabierta : styles.puertacerrada]}></View>
+                            <View style={[this.state.puertaCuarto1 == 1 ? styles.puertabierta : styles.puertacerrada]}></View>
                             <View style={[styles.rellenopared, styles.one]}></View>
                         </View>
-                        <View style={[this.state.luzBanio == 1 ? styles.sectionvon : styles.sectionvoff, styles.one, styles.texto]}>
+                        <View style={[this.state.luzCuarto1 == 1 ? styles.sectionvon : styles.sectionvoff, styles.one, styles.texto]}>
                             <TouchableOpacity
                                 onPress={() => this.onPressCuarto(4)}
                             >
-                                <Text>Baño</Text>
+                                <Text>Cuarto 1</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
