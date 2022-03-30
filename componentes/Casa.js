@@ -1,15 +1,15 @@
 import { StyleSheet, Text, View , Image, TouchableOpacity } from 'react-native';
 import React, {Component} from 'react';
-/* window.navigator.userAgent ='react-native';
-import io from 'socket.io-client'; */
 import camara from '../assets/camara.png';
 import bombilloOn from '../assets/bombilloOn.png';
 import bombilloOff from '../assets/bombilloOff.png';
 import interrogacion from '../assets/pregunta.png';
-//import puerta from '../assets/puerta.png'
 import * as glob from './global/global';
 
-
+/*
+* Componente que permite mostrar la foto
+* tomada por la webcam que devue el servidor
+*/
 export default class Casa extends Component{
 
     constructor(props){
@@ -27,17 +27,12 @@ export default class Casa extends Component{
             puertaBanio: 0,
             puertaFrente: 0
         }
-
-        /* this.setPuertas = this.setPuertas.bind(this);
-
-        this.socket = io("http://192.168.1.4:7000/", {jsonp: false});
-
-        this.socket.on('update', () => this.setState({puertaFrente: 1}));
-
-        this.socket.on('update2', () => this.setState({puertaFrente: 0})); */
     }
     
-
+    /*
+    * Esta funcion se comunica con el servidor mediante un metodo GET
+    * que retorna como respuesta el estado actual de las luces y puertas
+    */
     componentDidMount() {
         fetch(glob.Url+'luces', {
           method: 'GET'
@@ -70,6 +65,11 @@ export default class Casa extends Component{
         })
     }
 
+    /*
+    * Esta funcion permite modificar el estado entre encendido y apagado
+    * para una habitacion con id = num
+    * @param num 
+    */
     onPressCuarto(num){
         if (num === 1){
             if(this.state.luzBanio === 1){
@@ -135,6 +135,10 @@ export default class Casa extends Component{
         
     }
 
+    /*
+    * Esta funcion se comunica con el servidor mediante un metodo PATCH
+    * para modificar el estado de las luces a encendido
+    */
     fetchOn(num){
         fetch(glob.Url+"luces/"+num, {  
             method: "PATCH", 
@@ -145,6 +149,10 @@ export default class Casa extends Component{
         .then(data => console.log(data));
     }
 
+    /*
+    * Esta funcion se comunica con el servidor mediante un metodo PATCH
+    * para modificar el estado de las luces a apagado
+    */
     fetchOff(num){
         fetch(glob.Url+"luces/"+num, {  
             method: "PATCH", 
@@ -154,7 +162,6 @@ export default class Casa extends Component{
         .then(response => {    console.log(response.status);     return response.json();  })  
         .then(data => console.log(data));
     }
-
     onPressPuertas(){
         fetch(glob.Url+'puertas', {
             method: 'GET'
@@ -174,6 +181,9 @@ export default class Casa extends Component{
         })
     }
 
+    /*
+    * Esta funcion permite encender todas las luces
+    */
     onPressCasaOn(){
         this.setState({
             luzCuarto1: 1,
@@ -189,6 +199,9 @@ export default class Casa extends Component{
         this.fetchOn(5)
     }
 
+    /*
+    * Esta funcion permite apagar todas las luces
+    */
     onPressCasaOff(){
         this.setState({
             luzCuarto1: 0,
@@ -204,14 +217,21 @@ export default class Casa extends Component{
         this.fetchOff(5)
     }
 
+    /*
+    * Esta funcion cambia la pantalla a la vista para visualizar la foto
+    */
     onPressCamara(){
         this.props.navigation.navigate('Photo')
     }
 
+    /*
+    * Esta funcion cambia la pantalla a la vista de ayuda
+    */
     onPressHelp(){
         this.props.navigation.navigate('Help')
     }
 
+    //Render devuelve la interfaz con la vista de la casa
     render(){
         return (
             <View style={styles.container}>
@@ -219,14 +239,8 @@ export default class Casa extends Component{
                 {/* Casa */}
                 <View style={styles.casa}>
 
-                    {/* <Text>Luces:</Text>
-                    <Text>{JSON.stringify(this.props.navigation.state.params.luces)}</Text>
-                    <Text>Puertas:</Text>
-                    <Text>{JSON.stringify(this.props.navigation.state.params.puertas)}</Text> */}
-
                     {/* Patio */}
                     <View style={styles.sectionh}>
-                        {/* <View style={[styles.patio, styles.texto]}> */}
                         <TouchableOpacity
                             onPress={() => this.onPressPuertas()}
                             style={[styles.patio, styles.texto]}
@@ -362,14 +376,6 @@ export default class Casa extends Component{
                             style={styles.image}
                         />
                     </TouchableOpacity>
-                    {/* <TouchableOpacity
-                        onPress={() => this.onPressPuertas()}
-                    >
-                        <Image
-                            source={puerta}
-                            style={styles.image}
-                        />
-                    </TouchableOpacity> */}
                     <TouchableOpacity
                         onPress={() => this.onPressHelp()}
                     >
@@ -384,6 +390,7 @@ export default class Casa extends Component{
     }
 }
 
+//Estilos de la interfaz
 const styles = StyleSheet.create({
     container: {
         flex: 1,

@@ -2,8 +2,9 @@ import { StyleSheet, View , Image } from 'react-native';
 import React, {Component} from 'react';
 import imagen from '../assets/info.png';
 
-export default class Foto extends Component{
+export default class Ayuda extends Component{
 
+    //Render devuelve la interfaz para visualizar la ayuda
     render(){
         return (
             <View style={styles.container}>
@@ -16,6 +17,7 @@ export default class Foto extends Component{
     }
 }
 
+//Estilos de la interfaz
 const styles = StyleSheet.create({
     container: {
         flex: 1,

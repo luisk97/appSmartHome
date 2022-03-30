@@ -10,6 +10,9 @@ import * as glob from './componentes/global/global';
 import icocasa from './assets/casaico.png';
 import md5 from 'md5';
 
+/*
+* Componente de pantalla de inicio que permite loguearse en la app
+*/
 class HomeScreen extends Component {
 
   constructor(props){
@@ -39,6 +42,10 @@ class HomeScreen extends Component {
     })
   }
 
+  /*
+  * Esta funcion se comunica con el servidor mediante un metodo POST
+  * para verificar el usuario y contraseña ingresados
+  */
   _onPressButton() {
     fetch(glob.Url+"login", {  
       method: "POST", 
@@ -68,6 +75,7 @@ class HomeScreen extends Component {
     })
   }
 
+  //Render devuelve la interfaz de login
   render() {
     return (
       <View style={styles.container}>
@@ -102,6 +110,7 @@ class HomeScreen extends Component {
   }
 }
 
+//Stack navigator que permite navegar entre las diferentes pantallas de la app
 const AppNavigator = createStackNavigator({
   Login: {
     screen: HomeScreen
@@ -117,6 +126,7 @@ const AppNavigator = createStackNavigator({
   }
 });
 
+//Estilos de la interfaz
 const styles = StyleSheet.create({
   container: {
     flex: 1,
